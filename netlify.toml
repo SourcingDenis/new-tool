@@ -1,5 +1,5 @@
 [build]
-  command = ""tsc && npx vite build""
+  command = "tsc && npx vite build"
   publish = "dist"
   functions = "netlify/functions"
 
