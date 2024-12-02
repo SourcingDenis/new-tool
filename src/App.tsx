@@ -2,14 +2,12 @@ import { useState, useEffect } from 'react';
 import { SearchContainer } from '@/components/search/SearchContainer';
 import { SavedProfiles } from '@/components/saved/SavedProfiles';
 import { SavedSearches } from '@/components/saved/SavedSearches';
-import { AuthProvider } from '@/components/auth/AuthProvider';
+import { AuthProvider, useAuth } from '@/components/auth/AuthProvider';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { Header } from '@/components/layout/Header';
 import { Hero } from '@/components/layout/Hero';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useAuth } from '@/components/auth/AuthProvider';
 import { useLocation } from 'react-router-dom';
-import { Routes, Route } from 'react-router-dom';
 
 function App() {
   const [activeTab, setActiveTab] = useState('search');

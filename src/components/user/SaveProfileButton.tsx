@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/Button';
 import { Bookmark } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { supabase } from '@/lib/supabase';

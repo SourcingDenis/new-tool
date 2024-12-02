@@ -29,7 +29,7 @@ export async function searchUsers(params: UserSearchParams): Promise<SearchRespo
       searchQuery += ` is:hireable`;
     }
 
-    const response = await githubApi.get<{ items: any[]; total_count: number }>('/search/users', {
+    const response = await githubApi.get<SearchResponse>('/search/users', {
       params: {
         q: searchQuery,
         sort: params.sort || '',
@@ -47,21 +47,18 @@ export async function searchUsers(params: UserSearchParams): Promise<SearchRespo
         // Get user's top language
         let topLanguage = null;
         try {
-          const reposResponse = await githubApi.get(`/users/${user.login}/repos`, {
+          const reposResponse = await githubApi.get<{ language: string }[]>(`/users/${userDetails.login}/repos`, {
             params: { sort: 'pushed', per_page: 10 }
           });
-          const languages = reposResponse.data
-            .filter((repo: { language: string | null }) => repo.language)
-            .map((repo: { language: string }) => repo.language);
           
-          if (languages.length > 0) {
-            const languageCounts = languages.reduce((acc: Record<string, number>, lang: string) => {
-              acc[lang] = (acc[lang] || 0) + 1;
-              return acc;
-            }, {} as Record<string, number>);
-            topLanguage = Object.entries(languageCounts)
-              .sort((a, b) => b[1] - a[1])[0][0];
-          }
+          // Count languages
+          const languageCounts = reposResponse.data.reduce((acc, repo) => {
+            if (repo.language) {
+              acc[repo.language] = (acc[repo.language] || 0) + 1;
+            }
+            return acc;
+          }, {} as Record<string, number>);
+          topLanguage = Object.keys(languageCounts).sort((a, b) => languageCounts[b] - languageCounts[a])[0];
         } catch (error) {
           console.error('Error fetching user repositories:', error);
         }
@@ -87,38 +84,20 @@ export async function searchUsers(params: UserSearchParams): Promise<SearchRespo
 }
 
 export async function fetchAllUsers(params: Omit<UserSearchParams, 'page'>): Promise<GitHubUser[]> {
-  const PER_PAGE = 100; // Maximum allowed by GitHub API
-  const MAX_RESULTS = 1000; // GitHub API limit
-  let allUsers: GitHubUser[] = [];
-  let page = 1;
+  const allUsers: GitHubUser[] = [];
+  let currentPage = 1;
   
-  try {
-    while (true) {
-      const githubApi = await getGithubApi();
-      const response = await searchUsers({
-        ...params,
-        page,
-        per_page: PER_PAGE
-      });
-      
-      allUsers = [...allUsers, ...response.items];
-      
-      // Stop if we've reached the end of results or GitHub's limit
-      if (allUsers.length >= MAX_RESULTS || response.items.length < PER_PAGE) {
-        break;
-      }
-      
-      page++;
-      
-      // Add a small delay to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
+  while (true) {
+    const response = await searchUsers({ ...params, page: currentPage });
+    allUsers.push(...response.items);
     
-    return allUsers;
-  } catch (error) {
-    console.error('Error fetching all users:', error);
-    return allUsers;
+    if (response.items.length < (params.per_page || 10) || allUsers.length >= 1000) {
+      break;
+    }
+    currentPage++;
   }
+  
+  return allUsers;
 }
 
 export async function findUserEmail(username: string): Promise<string | null> {

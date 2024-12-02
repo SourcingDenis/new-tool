@@ -1,4 +1,4 @@
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/Button';
 import { ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,

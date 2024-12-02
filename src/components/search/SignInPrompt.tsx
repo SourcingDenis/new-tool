@@ -1,4 +1,4 @@
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/Button';
 import { Github, Download, BookmarkCheck } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';
 import { supabase } from '@/lib/supabase';
