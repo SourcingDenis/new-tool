@@ -1,7 +1,7 @@
-import React, { useState, KeyboardEvent } from 'react';
-import { Input } from '../ui/Input';
-import { Button } from '../ui/Button';
-import { LocationTags } from './LocationTags';
+import { useState, KeyboardEvent, FormEvent, ChangeEvent } from 'react';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
+import { LocationTags } from '@/components/search/LocationTags';
 import { Search } from 'lucide-react';
 import type { UserSearchParams } from '@/types';
 import { useSearchParams } from 'react-router-dom';
@@ -53,9 +53,21 @@ export function SearchForm({ onSearch }: SearchFormProps) {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     handleSearch(query, language, locations);
+  };
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.id === 'query') {
+      setQuery(e.target.value);
+    } else if (e.target.id === 'language') {
+      setLanguage(e.target.value);
+    } else if (e.target.id === 'location') {
+      setLocationInput(e.target.value);
+    } else if (e.target.id === 'hireable') {
+      setHireable(e.target.checked);
+    }
   };
 
   return (
@@ -63,25 +75,28 @@ export function SearchForm({ onSearch }: SearchFormProps) {
       <div className="relative">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
+          id="query"
           placeholder="Search GitHub users..."
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleInputChange}
           className="pl-10 h-12"
           required
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
+          id="language"
           placeholder="Programming language"
           value={language}
-          onChange={(e) => setLanguage(e.target.value)}
+          onChange={handleInputChange}
           className="h-10"
         />
         <div className="space-y-2">
           <Input
+            id="location"
             placeholder="Location (press Enter to add)"
             value={locationInput}
-            onChange={(e) => setLocationInput(e.target.value)}
+            onChange={handleInputChange}
             onKeyDown={handleLocationKeyDown}
             className="h-10"
           />
@@ -93,10 +108,10 @@ export function SearchForm({ onSearch }: SearchFormProps) {
       </div>
       <div className="flex items-center gap-2">
         <input
-          type="checkbox"
           id="hireable"
+          type="checkbox"
           checked={hireable}
-          onChange={(e) => setHireable(e.target.checked)}
+          onChange={handleInputChange}
           className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
         />
         <label htmlFor="hireable" className="text-sm text-muted-foreground">
