@@ -6,7 +6,7 @@ import { useAuth } from './AuthProvider';
 export function AuthButton() {
   const { user } = useAuth();
 
-  const handleLogin = async () => {
+  const handleLogin = async (): Promise<void> => {
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'github',
@@ -18,16 +18,16 @@ export function AuthButton() {
       if (error) {
         console.error('Auth error:', error.message);
       }
-    } catch (err) {
-      console.error('Login failed:', err);
+    } catch (err: unknown) {
+      console.error('Login failed:', err instanceof Error ? err.message : String(err));
     }
   };
 
-  const handleLogout = async () => {
+  const handleLogout = async (): Promise<void> => {
     try {
       await supabase.auth.signOut();
-    } catch (err) {
-      console.error('Logout failed:', err);
+    } catch (err: unknown) {
+      console.error('Logout failed:', err instanceof Error ? err.message : String(err));
     }
   };
 

@@ -33,8 +33,8 @@ export function ExportButton({ currentUsers, searchParams, disabled }: ExportBut
       const csvContent = convertToCSV(allUsers);
       const timestamp = new Date().toISOString().split('T')[0];
       downloadCSV(csvContent, `github-users-${timestamp}.csv`);
-    } catch (error) {
-      console.error('Error exporting users:', error);
+    } catch (error: unknown) {
+      console.error('Error exporting users:', error instanceof Error ? error.message : String(error));
     } finally {
       setIsExporting(false);
     }

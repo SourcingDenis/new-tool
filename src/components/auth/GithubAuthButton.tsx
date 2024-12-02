@@ -3,16 +3,20 @@ import { Github } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
 export function GithubAuthButton() {
-  const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'github',
-      options: {
-        scopes: 'read:user user:email'
-      }
-    });
+  const handleLogin = async (): Promise<void> => {
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'github',
+        options: {
+          scopes: 'read:user user:email'
+        }
+      });
 
-    if (error) {
-      console.error('Error signing in with GitHub:', error);
+      if (error) {
+        console.error('Error signing in with GitHub:', error.message);
+      }
+    } catch (err: unknown) {
+      console.error('Error signing in with GitHub:', err instanceof Error ? err.message : String(err));
     }
   };
 

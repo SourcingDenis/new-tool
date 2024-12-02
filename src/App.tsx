@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { SearchContainer } from '@/components/search/SearchContainer';
 import { SavedProfiles } from '@/components/saved/SavedProfiles';
 import { SavedSearches } from '@/components/saved/SavedSearches';
@@ -25,7 +25,7 @@ function App() {
     }
   }, [location.search]);
 
-  const handleSearch = () => {
+  const handleSearch = (): void => {
     setHasSearched(true);
   };
 

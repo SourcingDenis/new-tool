@@ -33,8 +33,8 @@ export function SearchForm({ onSearch }: SearchFormProps) {
     }
   };
 
-  const handleRemoveLocation = (locationToRemove: string) => {
-    const newLocations = locations.filter(loc => loc !== locationToRemove);
+  const handleRemoveLocation = (locationToRemove: string): void => {
+    const newLocations = locations.filter((loc: string): boolean => loc !== locationToRemove);
     setLocations(newLocations);
     handleSearch(query, language, newLocations);
   };
@@ -43,7 +43,7 @@ export function SearchForm({ onSearch }: SearchFormProps) {
     currentQuery: string,
     currentLanguage: string,
     currentLocations: string[]
-  ) => {
+  ): void => {
     if (!currentQuery.trim()) return;
     onSearch({
       query: currentQuery.trim(),
@@ -53,7 +53,7 @@ export function SearchForm({ onSearch }: SearchFormProps) {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     handleSearch(query, language, locations);
   };

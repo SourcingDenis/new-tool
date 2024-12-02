@@ -43,10 +43,10 @@ export function SearchContainer({ onSearch }: SearchContainerProps) {
       const params: Omit<UserSearchParams, 'page'> = {
         query,
         language: searchParams.get('language') || undefined,
-        locations: searchParams.get('locations')?.split(',') || [],
+        locations: searchParams.get('locations')?.split(',').filter((loc): loc is string => Boolean(loc)) || [],
         sort: searchParams.get('sort') || undefined,
-        order: (searchParams.get('order') as 'asc' | 'desc') || undefined,
-        per_page: searchParams.get('per_page') ? parseInt(searchParams.get('per_page')!) : undefined,
+        order: (searchParams.get('order') as UserSearchParams['order']) || undefined,
+        per_page: searchParams.get('per_page') ? Number(searchParams.get('per_page')) : undefined,
         hireable: searchParams.get('hireable') ? searchParams.get('hireable') === 'true' : undefined
       };
 
