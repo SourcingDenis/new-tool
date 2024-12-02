@@ -14,7 +14,12 @@ export function SearchForm({ onSearch }: SearchFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSearch({ query, language, location });
+    onSearch({ 
+      query, 
+      language, 
+      locations: location ? [location] : undefined,
+      page: 1 
+    });
   };
 
   return (

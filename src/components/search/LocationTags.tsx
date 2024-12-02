@@ -1,6 +1,5 @@
-import React from 'react';
 import { X } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button } from '@/components/ui/Button';
 
 interface LocationTagsProps {
   locations: string[];

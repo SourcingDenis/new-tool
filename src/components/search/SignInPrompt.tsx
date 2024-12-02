@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button } from '../ui/button';
 import { Github, Download, BookmarkCheck } from 'lucide-react';
 import { useAuth } from '../auth/AuthProvider';

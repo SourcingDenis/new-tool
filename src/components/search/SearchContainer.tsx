@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { SearchForm } from './SearchForm';
 import { UserList } from '../user/UserList';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
@@ -21,7 +21,7 @@ interface SearchContainerProps {
 
 export function SearchContainer({ onSearch }: SearchContainerProps) {
   const { user } = useAuth();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [users, setUsers] = useState<GitHubUser[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

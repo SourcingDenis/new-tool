@@ -1,4 +1,3 @@
-import React from 'react';
 import { ThemeToggle } from '../theme/ThemeToggle';
 import { AuthButton } from '../auth/AuthButton';
 import { Code2 } from 'lucide-react';

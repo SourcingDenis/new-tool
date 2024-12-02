@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button } from '../ui/button';
 import { Mail, Loader2, Copy, Check } from 'lucide-react';
 import { findUserEmail } from '@/lib/github-api';

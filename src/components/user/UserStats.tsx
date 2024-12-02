@@ -1,4 +1,3 @@
-import React from 'react';
 import { Users, BookOpen, GitFork } from 'lucide-react';
 
 interface UserStatsProps {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import type { GitHubUser } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { UserStats } from './UserStats';

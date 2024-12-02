@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../auth/AuthProvider';
 import { supabase } from '@/lib/supabase';
 import { LoadingSpinner } from '../ui/LoadingSpinner';
@@ -103,8 +103,8 @@ export function SavedSearches() {
               {new Date(search.created_at).toLocaleDateString()}
             </p>
             <p className="text-sm text-muted-foreground mt-1">
-              Query: {search.search_params.q}
-              {search.search_params.location && ` • Location: ${search.search_params.location}`}
+              Query: {search.search_params.query}
+              {search.search_params.locations && search.search_params.locations.length > 0 && ` • Location: ${search.search_params.locations.join(', ')}`}
               {search.search_params.language && ` • Language: ${search.search_params.language}`}
             </p>
           </div>

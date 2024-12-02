@@ -9,6 +9,7 @@ import { Hero } from '@/components/layout/Hero';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/components/auth/AuthProvider';
 import { useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 function App() {
   const [activeTab, setActiveTab] = useState('search');

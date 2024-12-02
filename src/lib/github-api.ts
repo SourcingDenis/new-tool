@@ -29,7 +29,7 @@ export async function searchUsers(params: UserSearchParams): Promise<SearchRespo
       searchQuery += ` is:hireable`;
     }
 
-    const response = await githubApi.get('/search/users', {
+    const response = await githubApi.get<{ items: any[]; total_count: number }>('/search/users', {
       params: {
         q: searchQuery,
         sort: params.sort || '',
@@ -40,8 +40,8 @@ export async function searchUsers(params: UserSearchParams): Promise<SearchRespo
     });
 
     const users = await Promise.all(
-      response.data.items.map(async (user: any) => {
-        const userDetailsResponse = await githubApi.get(`/users/${user.login}`);
+      response.data.items.map(async (user) => {
+        const userDetailsResponse = await githubApi.get<GitHubUser>(`/users/${user.login}`);
         const userDetails = userDetailsResponse.data;
         
         // Get user's top language
@@ -51,14 +51,14 @@ export async function searchUsers(params: UserSearchParams): Promise<SearchRespo
             params: { sort: 'pushed', per_page: 10 }
           });
           const languages = reposResponse.data
-            .filter((repo: any) => repo.language)
-            .map((repo: any) => repo.language);
+            .filter((repo: { language: string | null }) => repo.language)
+            .map((repo: { language: string }) => repo.language);
           
           if (languages.length > 0) {
             const languageCounts = languages.reduce((acc: Record<string, number>, lang: string) => {
               acc[lang] = (acc[lang] || 0) + 1;
               return acc;
-            }, {});
+            }, {} as Record<string, number>);
             topLanguage = Object.entries(languageCounts)
               .sort((a, b) => b[1] - a[1])[0][0];
           }

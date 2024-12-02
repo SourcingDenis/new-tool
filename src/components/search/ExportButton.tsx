@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button } from '../ui/button';
+import { useState } from 'react';
+import { Button } from '@/components/ui/Button';
 import { Download, Loader2 } from 'lucide-react';
 import { GitHubUser, UserSearchParams } from '@/types';
 import { convertToCSV, downloadCSV } from '@/lib/csv-utils';
