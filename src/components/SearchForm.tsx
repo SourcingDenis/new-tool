@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
+import { Input } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 import { UserSearchParams } from '@/types';
 
 interface SearchFormProps {

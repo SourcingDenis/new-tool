@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import type { GitHubUser } from '@/types';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/Button';
 import { UserStats } from './UserStats';
 import { LanguageBadge } from './LanguageBadge';
 import { SaveProfileButton } from './SaveProfileButton';
 import { EmailFinderButton } from './EmailFinderButton';
 import { ExternalLink, MapPin, Building, Link as LinkIcon, Calendar, Mail, Copy, Check } from 'lucide-react';
-import { Button } from '../ui/button';
 import { cn } from '@/lib/utils';
 
 interface UserCardProps {
